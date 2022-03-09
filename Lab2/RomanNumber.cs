@@ -10,19 +10,12 @@ namespace Lab2
     {
         private ushort value;
         private StringBuilder? stringValue;
-        //Конструктор получает число n, которое должен представлять объект
-        public RomanNumber(ushort n)
+        private static StringBuilder? Convert(ushort n)
         {
+            StringBuilder? newStringValue = new StringBuilder();
+
             try
             {
-                if (n < 1 || n > 3999)
-                {
-                    throw new RomanNumberException("Incorrect number: out of range!");
-                }
-
-                value = (ushort)n;
-                stringValue = new StringBuilder();
-
                 const ushort combinationAmount = 7 + 6;
                 ushort[] combinationValues = new ushort[combinationAmount] { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
                 string[] combinationStringValues = new string[combinationAmount] { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
@@ -31,12 +24,12 @@ namespace Lab2
                 {
                     while (n >= combinationValues[i])
                     {
-                        stringValue.Append(combinationStringValues[i]);
+                        newStringValue.Append(combinationStringValues[i]);
                         n -= combinationValues[i];
                     }
                 }
 
-                if (stringValue == null)
+                if (newStringValue == null)
                 {
                     throw new RomanNumberException("Construction failed!");
                 }
@@ -45,6 +38,19 @@ namespace Lab2
             {
                 Console.WriteLine($"Error: {e.Message}");
             }
+
+            return newStringValue;
+        }
+        //Конструктор получает число n, которое должен представлять объект
+        public RomanNumber(ushort n = 1)
+        {
+            if (n < 1 || n > 3999)
+            {
+                throw new RomanNumberException("Incorrect number: out of range!");
+            }
+
+            value = n;
+            stringValue = Convert(n);
         }
         //Сложение римских чисел
         public static RomanNumber Add(RomanNumber? n1, RomanNumber? n2)
@@ -62,6 +68,11 @@ namespace Lab2
             if (n1 == null || n2 == null)
             {
                 throw new RomanNumberException("One of numbers is null!");
+            }
+
+            if (n1.value <= n2.value)
+            {
+                throw new RomanNumberException("Wrong sub!");
             }
 
             return new RomanNumber((ushort)(n1.value - n2.value));
@@ -82,6 +93,11 @@ namespace Lab2
             if (n1 == null || n2 == null)
             {
                 throw new RomanNumberException("One of numbers is null!");
+            }
+
+            if (n1.value < n2.value)
+            {
+                throw new RomanNumberException("Wrong div!");
             }
 
             return new RomanNumber((ushort)(n1.value / n2.value));

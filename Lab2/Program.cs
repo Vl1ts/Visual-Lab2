@@ -9,9 +9,9 @@ namespace Lab2
         {
             Random rand = new Random();
 
-            RomanNumber testNumber = new RomanNumber(783);
-            RomanNumber AddSub = new RomanNumber(31);
-            RomanNumber MulDiv = new RomanNumber(2);
+            RomanNumber testNumber = new RomanNumber(750);
+            RomanNumber AddSub = new RomanNumber(15);
+            RomanNumber MulDiv = new RomanNumber(5);
 
             Console.WriteLine($"{testNumber.ToString()} + {AddSub.ToString()} = {RomanNumber.Add(testNumber, AddSub)}");
             Console.WriteLine($"{testNumber.ToString()} - {AddSub.ToString()} = {RomanNumber.Sub(testNumber, AddSub)}");
